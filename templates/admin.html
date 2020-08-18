@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Project 1-Home Page</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{{ url_for('static', filename ='css/bootstrap/bootstrap.min.css')}}"
+    crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename ='css/main.css')}}" crossorigin="anonymous" />
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <div id="overlay">
+      <nav class="navbar main-menu navbar-expand-sm navbar-light">
+        <div class="collapse navbar-collapse" id="mainMenu">
+          <ul class="navbar-nav mt-2 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link btn btns actived" href="{{ url_for('admin')}}">Home <span
+                  class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btns actived" href="/signout">Sign Out</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btns actived" href="{{ url_for('search')}}">Search </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="container">
+        <div class="row">
+          <div class="message">
+            {% with messages = get_flashed_messages() %}
+            {%if messages%}
+            {%for i in messages %}
+            <div class="alert alert-success text-center" role="alert">
+              <strong>{{i}}</strong>
+            </div>
+            {%endfor%}
+            {%endif%}
+            {%endwith%}
+          </div>
+        </div>
+        <br><br><br>
+        <div>
+          <table class="table table-hover table-bordered" style="font-size: 12px;">
+            <tr style="background-color: #f3f3f3;">
+              <th colspan="4" style="color: violet; font-weight: bold; text-align: center;">
+                You Have Reviewed the following books...
+              </th>
+            </tr>
+            <tr>
+              <th>ISBN</th>
+              <th>Rating</th>
+              <th>Comment</th>
+              <th>Date</th>
+            </tr>
+            {%if reviewedbooks%} {%for i in reviewedbooks %}
+            <tr>
+              <td>
+                <a href="{{url_for('singleBook', isbn = i[3] )}}"> {{i[3]}}</a>
+              </td>
+              <td>{{i[1]}}</td>
+              <td>{{i[2]}}</td>
+              <td>{{ i[4].strftime("%d %B, %Y") }}</td>
+            </tr>
+            {%endfor%} {%endif%}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script src="{{ url_for('static', filename = 'js/jquery.js')}}" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename = 'js/popper.js')}}"></script>
+  <script src="{{ url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+</body>
+</html>

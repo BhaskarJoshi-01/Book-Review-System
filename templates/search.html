@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Project 1-Search Page</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{{ url_for('static', filename ='css/bootstrap/bootstrap.min.css')}}"
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="{{ url_for('static', filename ='css/main.css')}}" crossorigin="anonymous" />
+  <style></style>
+</head>
+
+<body>
+  <div id="wrapper">
+    <div id="overlay">
+      <nav class="navbar main-menu navbar-expand-sm navbar-light">
+        <div class="collapse navbar-collapse" id="mainMenu">
+          <ul class="navbar-nav mt-2 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('admin')}}">Home </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('search')}}">Search<span class="sr-only">(current)</span> </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btns actived" href="{{ url_for('signout')}}">Sign Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="container">
+        <form action="/book" method="POST">
+          <div class="form-group">
+            <label for="name" class="text-center h2">Search Your favourite book</label>
+            <input type="search" name="byAuthor" id="name" class="form-control mt-1" placeholder="Search by Author"
+              aria-describedby="name" />
+            <input type="search" name="byTitle" id="name" class="form-control mt-1" placeholder="Search by Title"
+              aria-describedby="name" />
+
+            <input type="search" name="byIsbn" id="name" class="form-control mt-1" placeholder="Search by ISBN"
+              aria-describedby="name" />
+            <input type="search" name="byYear" id="name" class="form-control mt-1" placeholder="Search by Year"
+              aria-describedby="name" />
+          </div>
+
+          <button type="submit" class="btns actived btn-primary btn-block">
+            Submit
+          </button>
+        </form>
+        <br><br>
+        <div>
+          {% if itemsCount %}
+          <div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <p>
+              Total <strong> {{itemsCount}} </strong> result found for:
+              <strong> {{text}}</strong>
+            </p>
+          </div>
+          <br>
+          <br>
+          <script>
+            $(".alert").alert();
+          </script>
+          {%endif%} {% if msgNo %}
+          <div class="text-center alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <p>{{msgNo}} for: <strong> {{text}}</strong></p>
+          </div>
+
+          <script>
+            $(".alert").alert();
+          </script>
+
+          {{hello}} {%endif%} {%if items%}
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+                <th>ISBN</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in items %}
+              <tr>
+                <td><a href="{{baseUrl}}/{{i[1]}}"> {{i[2]}}</a></td>
+                <td>{{i[3]}}</td>
+                <td>{{i[4]}}</td>
+                <td><a href="{{baseUrl}}/api/{{i[1]}}"> {{i[1]}}</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {%endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container-fluid footer">
+    <div class="row">
+      <div class="col-sm-12" style="padding: 0;">
+
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename = 'js/jquery.js')}}" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename = 'js/popper.js')}}"></script>
+  <script src="{{ url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+  <!-- <script src="{{ url_for('static', filename = 'js/main.js')}}"></script>
+  {%block script %} {%endblock%} -->
+</body>
+
+</html>

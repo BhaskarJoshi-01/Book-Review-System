@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Project 1-SignIn</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{{ url_for('static', filename ='css/bootstrap/bootstrap.min.css')}}"
+    crossorigin="anonymous" />
+  <style>
+    /* @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap"); */
+
+    /* #overlay {
+      background: rgba(255, 255, 255, 0);
+      height: 100%;
+    } */
+
+    /* #signinForm input,
+    #signupForm input {
+      color: #ff105f !important;
+      background-color: #ba1beb12 !important;
+      background-clip: padding-box;
+      border: 1px solid #8a8a8a00 !important;
+      border-radius: 30px !important;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      box-shadow: inset 2px 2px 4px #00000059 !important;
+      margin: 0 auto;
+    } */
+
+    /* .main-menu,
+    .footer {
+      display: none;
+    } */
+
+    .login-wrapper .card {
+      background: transparent;
+      border: none;
+    }
+
+    /* .login-wrapper .card.form {
+      border: none;
+      box-shadow: -5px -5px 10px 0px #0000000f, 5px 5px 10px #00000017;
+      border-radius: 30px;
+    } */
+
+    /* .btns {
+      border-radius: 30px;
+      padding: 8px 3rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      color: rgb(61, 61, 61);
+    } */
+
+    .btns:hover {
+      background: linear-gradient(to right, #ff105f, #ffad06);
+      outline: none;
+    }
+
+    .actived {
+      background: linear-gradient(to right, #ff105f, #ffad06);
+      box-shadow: inset -2px -2px 5px #0000, inset 2px 2px 5px #0a0a0a96;
+      color: #fff;
+      border: none;
+    }
+
+    /* .actived:hover {
+      color: rgb(61, 61, 61);
+    } */
+
+    .login-btn {
+      background: linear-gradient(to right, #ff105f, #ffad06);
+      box-shadow: -3px -3px 5px #fff, 2px 2px 5px #0a0a0a47;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-size: 20px;
+    }
+
+    /* .form-container {
+      position: static;
+      margin-right: auto;
+    }
+
+    .form {
+      position: relative;
+      margin-right: auto;
+    } */
+
+    .signup-form {
+      display: none;
+    }
+
+    .login-wrapper h4.card-title {
+      font-size: 3rem;
+      text-align: center;
+      color: #292929;
+    }
+
+    .login-wrapper p.card-text {
+      text-align: center;
+      color: #292929;
+      font-size: 2rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrappera">
+    <div id="overlay">
+      <!-- main menu -->
+
+      <div class="container justify-content-center" style="align-items: center;">
+        <div style="text-align: center;">
+          <h1>Sign-In Page</h1>
+        </div>
+        <div class="col-sm-12 col-md-6 form-column" style="align-items: center; margin: auto;">
+          <div class="card form mt-4">
+            <article class="card-body" style="align-items: center;">
+              <p class="sign-up btns float-right btn btn-lg" onclick="showSignUpForm()">
+                Sign up
+              </p>
+              <p class="btns sign-in card-title mb-4 mt-1 btn btn-lg actived" onclick="showSignInForm()">
+                Sign in
+              </p>
+              {% with messages = get_flashed_messages() %} {% if messages %} {% for i
+                in messages %}
+              <div class="alert alert-success" role="alert">
+                <strong>
+                  {{i}}
+                </strong>
+              </div>
+              {% endfor %} {%endif%} {%endwith%}
+              <div class="form-container">
+                <form id="signinForm" class="signin-form" action="/signin_validation" method="POST">
+                  <div class="form-group">
+                    <label>Your email</label>
+                    <input name="signinEmail" class="form-control" placeholder="abc@gmail.com" type="email"
+                      value="{{ email if email }}" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label>Your password</label>
+                    <input name="signinPassword" class="form-control" placeholder="******" type="password" required />
+                  </div>
+
+                  <div class="form-group">
+                    <button type="submit" class="login-btn btn btn-block">
+                      Sign in
+                    </button>
+                  </div>
+                </form>
+
+                <form id="signupForm" class="signup-form hide" method="POST" action="/register" style="display: none;">
+                  <div class="form-group">
+                    <label>Your Name</label>
+                    <input name="signupName" class="form-control signup-name" placeholder="BHASKAR JOSHI" type="text"
+                      required />
+                  </div>
+                  <div class="form-group">
+                    <label>Your email</label>
+                    <input name="signupEmail" class="form-control signup-email" placeholder="abc@gmail.com" type="email"
+                      required />
+                  </div>
+                  <div class="form-group">
+                    <label>Your password</label>
+
+                    <input name="signupPassword" id="signup-password" class="form-control signup-password"
+                    placeholder="******" type="password" required  />
+                  </div>
+
+
+                  <div class="form-group">
+                    <button type="submit" id="signupSubmit" class="login-btn btn btn-block">
+                      Sign up
+                    </button>
+                  </div>
+                </form>
+                <script>
+                  function showSignInForm() {
+                    document.getElementById("signupForm").style.display = "none";
+                    document.getElementById("signinForm").style.display = "block";
+                  }
+                  function showSignUpForm() {
+                    document.getElementById("signupForm").style.display = "block";
+                    document.getElementById("signinForm").style.display = "none";
+                  }
+                </script>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <script src="{{ url_for('static', filename = 'js/jquery.js')}}" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename = 'js/popper.js')}}"></script>
+  <script src="{{ url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+
+</body>
+
+</html>
